@@ -2,7 +2,6 @@ const gulp = require(`gulp`);
 const sass = require(`gulp-sass`)(require(`sass`));
 const sync = require(`browser-sync`).create();
 const reload = sync.reload;
-const ghPages = require(`gulp-gh-pages`);
 const colors = require(`colors/safe`);
 const del = require(`del`);
 const mustache = require(`gulp-mustache`);
@@ -79,16 +78,6 @@ gulp.task(`clean`, function (done) {
 // CLEAN BUILD & COPY FILES TO IT
 gulp.task(`build`, gulp.series([`clean`], [`scss`, `js`, `tmpl`]));
 
-// PUBLISH TO GITHUB PAGES
-function publish () {
-  console.log(colors.rainbow(`⬤  Publish to Github Pages... ⬤`));
-
-  return gulp.src(`${SERVER_ROOT}**/*`)
-    .pipe(ghPages());
-}
-
-gulp.task(`ghPages`, gulp.series(publish));
-
 gulp.task(`default`, function (done) {
   console.log(colors.rainbow(`⬤  ================================ ⬤\n`));
   console.log(`  AVAILABLE COMMANDS:`);
@@ -97,8 +86,6 @@ gulp.task(`default`, function (done) {
               ` — run local server with watcher`);
   console.log(`  ` + colors.green(`npm run build`) +
               ` — make build of the project`);
-  console.log(`  ` + colors.cyan(`npm run deploy`) +
-              ` — make build and publish project to Github Pages`);
   console.log(colors.rainbow(`\n⬤  ================================ ⬤`));
 
   done();
